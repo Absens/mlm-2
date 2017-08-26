@@ -120,7 +120,6 @@ $adminRoute = config('app.adminUrl');
 Route::get($adminRoute, ['as' => 'admin.home', 'uses' => 'Admin\SiteController@getIndex']);
 Route::get($adminRoute . '/login', ['as' => 'admin.login', 'uses' => 'Admin\SiteController@getLogin']);
 Route::get($adminRoute . '/logout', ['as' => 'admin.logout', 'uses' => 'Admin\SiteController@getLogout']);
-Route::get('client-destroy', 'SiteController@destroy');
 Route::get($adminRoute . '/settings', ['as' => 'admin.settings.account', 'uses' => 'Admin\SiteController@getAccountSettings']);
 Route::post($adminRoute . '/login', ['as' => 'admin.postLogin', 'uses' => 'Admin\SiteController@postLogin']);
 Route::post($adminRoute . '/update-account', ['as' => 'admin.account.postUpdate', 'uses' => 'Admin\SiteController@postUpdateAccount']);
