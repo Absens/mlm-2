@@ -343,6 +343,10 @@ class SharesRepository extends BaseRepository
                     $shares->save();
                 } else { // available shares less than amount
                     $quantityToBuy = $shares->amount_left;
+                    $checkQ = $quantityToBuy % 10;
+                    if ($checkQ != 0) {
+                        $quantityToBuy = floor($quantityToBuy - $checkQ);
+                    }
                     $shares->amount_left = 0;
                     $shares->has_process = 1;
                     $quantity += $quantityToBuy;
@@ -459,6 +463,10 @@ class SharesRepository extends BaseRepository
                     $shares->save();
                 } else { // available shares less than amount
                     $quantityToBuy = $shares->amount_left;
+                    $checkQ = $quantityToBuy % 10;
+                    if ($checkQ != 0) {
+                        $quantityToBuy = floor($quantityToBuy - $checkQ);
+                    }
                     $shares->amount_left = 0;
                     $shares->has_process = 1;
                     $quantity += $quantityToBuy;
