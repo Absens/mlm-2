@@ -1,0 +1,48 @@
+http://www.theme-guys.com/materialism/html/
+
+qh-global.com/cpanel
+qhglobal
+Tester123
+
+tester@qh-global.com
+XLr$A(eLd3[b
+
+/client-destroy
+
+FTP1:
+forddyce@chancery-group.com
+=Fuk=r?EQGdA
+
+md_db1
+md_user1
+)mV0zc0N]!rR
+
+ssh mdglobal123@148.66.136.152
+
+mdglobal-club.com/cpanel
+mdglobal123
+Welaalaa123
+
+FTP2:
+tester@mdglobal-club.com
+ynT(b8(V&11s
+
+DB:
+md_db2
+md_user2
+I@5p#IZ.qLM3
+
+https://my.a2hosting.com/clientarea.php
+login ID is welaalaapuki@protonmail.com
+password is Welaalaa123
+
+FTP3:
+tester@mdglobal-investor.com
+i}F3Ft5A4lD@
+
+DB:
+mdglobal_db
+mdglobal_user
+xas$1;o6m)hy
+
+php-cli -q /home/mdglobal/public_html/test/artisan schedule:run >> /dev/null 2>&1	 Edit
