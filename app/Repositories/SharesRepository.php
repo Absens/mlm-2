@@ -336,7 +336,7 @@ class SharesRepository extends BaseRepository
                     $quantityToBuy = (int) $amount / $shares->share_price;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
-                        $quantityToBuy = $quantityToBuy - $checkQ;
+                        $quantityToBuy = floor($quantityToBuy - $checkQ);
                     }
                     $shares->amount_left -= $quantityToBuy;
                     $quantity += $quantityToBuy;
@@ -360,7 +360,7 @@ class SharesRepository extends BaseRepository
                 $quantityLeft = round($amount / $state->current_price);
                 $checkQ = $quantityLeft % 10;
                 if ($checkQ != 0) {
-                    $quantityLeft = $quantityLeft - $checkQ;
+                    $quantityLeft = floor($quantityLeft - $checkQ);
                 }
                 $quantity += $quantityLeft;
             }
@@ -415,7 +415,7 @@ class SharesRepository extends BaseRepository
 
             $checkQuantity = $quantity % 10;
             if ($checkQuantity != 0) {
-                $quantity = $quantity - $checkQuantity;
+                $quantity = floor($quantity - $checkQuantity);
             }
 
             $total = $quantity * $state->current_price;
@@ -452,7 +452,7 @@ class SharesRepository extends BaseRepository
                     $quantityToBuy = (int) $amount / $shares->share_price;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
-                        $quantityToBuy = $quantityToBuy - $checkQ;
+                        $quantityToBuy = floor($quantityToBuy - $checkQ);
                     }
                     $shares->amount_left -= $quantityToBuy;
                     $quantity += $quantityToBuy;
@@ -476,7 +476,7 @@ class SharesRepository extends BaseRepository
                 $quantityLeft = round($amount / $state->current_price);
                 $checkQ = $quantityLeft % 10;
                 if ($checkQ != 0) {
-                    $quantityLeft = $quantityLeft - $checkQ;
+                    $quantityLeft = floor($quantityLeft - $checkQ);
                 }
                 $quantity += $quantityLeft;
             }

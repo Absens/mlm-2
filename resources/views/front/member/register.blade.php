@@ -107,7 +107,7 @@
 
                     <div class="form-group">
                       <label class="control-label" for="inputSPassword">@lang('register.spassword')</label>
-                      <input type="password" id="inputSPassword" name="s" class="form-control" required="" minlength="5">
+                      <input type="password" id="inputSPassword" name="secret" class="form-control" required="" minlength="5">
                     </div>
 
                     <div class="form-group">

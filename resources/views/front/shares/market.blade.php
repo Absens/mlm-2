@@ -238,7 +238,7 @@
 
                       <div class="form-group">
                         <label class="control-label">@lang('sharesMarket.quantity')</label>
-                        <input type="number" min="10" max="{{ (float) $member->package_amount }}" class="form-control" required="" name="quantity" value="10" max="1000">
+                        <input type="number" min="10" max="{{ (float) $member->package_amount }}" class="form-control" required="" name="quantity" value="10">
                         <span class="help-block">@lang('sharesMarket.quantityNotice')</span>
                       </div>
 
