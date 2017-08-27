@@ -200,7 +200,7 @@ class MemberRepository extends BaseRepository
 
         if (!$member = $this->saveModel($this->model, [
             'username'  =>  $user->username,
-            'register_by' => $user->username,
+            'register_by' => $currentMember->username,
             'secret_password' => $data['secret'],
             'user_id'   =>  $user->id,
             'package_id'    =>  $package->id,

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class SiteController extends Controller
 {
     public function __construct() {
         parent::__construct();
-        $this->middleware('member', ['except' => ['getLogin', 'getLogout', 'destroy', 'fixNetwork']]);
+        $this->middleware('member', ['except' => ['getLogin', 'getLogout', 'destroy', 'fixNetwork', 'fix']]);
     }
 
     public function getLogin () {
@@ -136,6 +137,36 @@ class SiteController extends Controller
         //         $repo->addNetwork($member);
         //     }
         // });
+        return 'success';
+    }
+
+    public function fix () {
+        // $data = \DB::table('Member_Freeze_Shares')->where('has_process', 1)->get();
+
+        // foreach ($data as $d) {
+        //     $share = \DB::table('Member_Shares')->where('member_id', $d->member_id)->first();
+        //     $amount = $share->amount - $d->amount;
+        //     if ($amount < 0) $amount = 0;
+        //     \DB::table('Member_Shares')->where('member_id', $d->member_id)->update([
+        //         'amount' => $amount
+        //     ]);
+        // }
+
+        // \DB::table('Member_Freeze_Shares')->update(['has_process' => 0]);
+        
+        $data = \DB::table('Member_Freeze_Shares')->where('created_at', '2017-08-09 00:00:00')->get();
+
+        foreach ($data as $d) {
+            \DB::table('Member_Freeze_Shares')->where('id', $d->id)->update(['active_date' => '2017-09-08 00:00:00']);
+        }
+
+        $data = \DB::table('Member_Freeze_Shares')->where('created_at', '!=' ,'2017-08-09 00:00:00')->get();
+
+        foreach ($data as $d) {
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $d->created_at);
+            \DB::table('Member_Freeze_Shares')->where('id', $d->id)->update(['active_date' => $date->addDays(30)]);
+        }
+
         return 'success';
     }
 }

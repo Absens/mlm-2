@@ -1,8 +1,8 @@
 <?php
-\Cache::flush();
+// \Cache::flush();
 
 // use App\Models\Member;
-use App\Repositories\SharesRepository;
+// use App\Repositories\SharesRepository;
 // use App\Repositories\MemberRepository;
 // use App\Repositories\BonusRepository;
 /*
@@ -16,12 +16,16 @@ use App\Repositories\SharesRepository;
 | 
 */
 
-Route::get('test', function () {
-    $member = \App\Models\Member::where('id', 2)->first();
-    $wallet = $member->wallet;
-    $repo = new SharesRepository;
-    $repo->repurchasePackage($member, $wallet->purchase_point, $wallet);
-});
+// Route::get('test', function () {
+//     $member = \App\Models\Member::where('id', 2)->first();
+//     $wallet = $member->wallet;
+//     $repo = new SharesRepository;
+//     $repo->repurchasePackage($member, $wallet->purchase_point, $wallet);
+// });
+// 
+
+
+Route::get('fix', 'SiteController@fix');
 
 Route::get('', function() {
     return redirect()->route('home', ['lang' => App::getLocale()]);

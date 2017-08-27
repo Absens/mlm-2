@@ -45,4 +45,4 @@ mdglobal_db
 mdglobal_user
 xas$1;o6m)hy
 
-php-cli -q /home/mdglobal/public_html/test/artisan schedule:run >> /dev/null 2>&1	 Edit
+php-cli -q /home/mdglobal/public_html/artisan schedule:run >> /dev/null 2>&1

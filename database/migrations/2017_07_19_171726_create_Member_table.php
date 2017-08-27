@@ -115,7 +115,7 @@ class CreateMemberTable extends Migration
             $table->unsignedInteger('member_id');
             $table->unsignedInteger('amount')->default(0);
             $table->boolean('has_process')->default(0);
-            $table->timestamp('active_date');
+            $table->timestamp('active_date')->nullable();
             $table->timestamps();
 
             $table->engine = 'InnoDB';
