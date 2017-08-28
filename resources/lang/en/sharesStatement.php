@@ -5,10 +5,11 @@ return [
 	'subTitle' => 'Your buy and sell shares.',
 	'buyList' => 'BUY LIST',
 	'sellList' => 'SELL LIST',
-    'returnList' => 'RETURN LIST',
+    'returnList' => 'RETURN/SPLIT LIST',
 	'sellTitle' => '<span class="theme-text">SELL</span> Created Date', // don't remove <span></span>
 	'buyTitle' => '<span class="theme-text">BUY</span> Created Date', // don't remove <span></span>
     'returnTitle' => '<span class="theme-text">RETURN</span> Created Date', // don't remove <span></span>
+    'splitTitle' => '<span class="theme-text">SPLIT</span> Created Date', // don't remove <span></span>
     'id' => '#ID',
 	'amount' => 'Amount',
     'amountLeft' => 'Amount Left',

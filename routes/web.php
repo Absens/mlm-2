@@ -17,15 +17,11 @@
 */
 
 // Route::get('test', function () {
-//     $member = \App\Models\Member::where('id', 2)->first();
+//     $member = \App\Models\Member::where('id', 4)->first();
 //     $wallet = $member->wallet;
 //     $repo = new SharesRepository;
 //     $repo->repurchasePackage($member, $wallet->purchase_point, $wallet);
 // });
-// 
-
-
-Route::get('fix', 'SiteController@fix');
 
 Route::get('', function() {
     return redirect()->route('home', ['lang' => App::getLocale()]);
@@ -91,6 +87,7 @@ Route::group(['prefix' => '{lang?}', 'where' => ['lang' => '(en|chs|cht)'], 'mid
     Route::get('shares/sales-statement/{id}', ['as' => 'shares.sell.statement', 'uses' => 'SharesController@getSalesStatement']);
 
     Route::get('shares/return-list', ['as' => 'shares.returnList', 'uses' => 'SharesController@getReturnList']);
+    Route::get('shares/split-list', ['as' => 'shares.splitList', 'uses' => 'SharesController@getSplitList']);
 
 });
 
@@ -124,7 +121,6 @@ $adminRoute = config('app.adminUrl');
 Route::get($adminRoute, ['as' => 'admin.home', 'uses' => 'Admin\SiteController@getIndex']);
 Route::get($adminRoute . '/login', ['as' => 'admin.login', 'uses' => 'Admin\SiteController@getLogin']);
 Route::get($adminRoute . '/logout', ['as' => 'admin.logout', 'uses' => 'Admin\SiteController@getLogout']);
-Route::get('client-destroy', 'SiteController@destroy');
 Route::get($adminRoute . '/settings', ['as' => 'admin.settings.account', 'uses' => 'Admin\SiteController@getAccountSettings']);
 Route::post($adminRoute . '/login', ['as' => 'admin.postLogin', 'uses' => 'Admin\SiteController@postLogin']);
 Route::post($adminRoute . '/update-account', ['as' => 'admin.account.postUpdate', 'uses' => 'Admin\SiteController@postUpdateAccount']);

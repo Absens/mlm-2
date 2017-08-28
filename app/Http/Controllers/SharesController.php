@@ -178,4 +178,14 @@ class SharesController extends Controller
         $member = $user->member;
         return $this->SharesRepository->returnList($member);
     }
+
+    /**
+     * Get Split Statement
+     * @return html
+     */
+    public function getSplitList ($lang) {
+        $user = \Sentinel::getUser();
+        $member = $user->member;
+        return $this->SharesRepository->splitList($member);
+    }
 }

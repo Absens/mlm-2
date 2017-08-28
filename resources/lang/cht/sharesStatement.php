@@ -5,10 +5,11 @@ return [
 	'subTitle' => '您的MD積分交易記錄.',
 	'buyList' => '買入報表',
 	'sellList' => '賣出報表',
-    'returnList' => '返回列表',
+    'returnList' => '返回/分頁表',
 	'sellTitle' => '<span class="theme-text">賣出</span> 創立日期', // don't remove <span></span>
 	'buyTitle' => '<span class="theme-text">買入</span> 創立日期', // don't remove <span></span>
     'returnTitle' => '<span class="theme-text">返回</span> 創立日期',
+    'splitTitle' => '<span class="theme-text">分裂</span> 創立日期', // don't remove <span></span>
     'id' => '#ID',
 	'amount' => '數量',
     'amountLeft' => '剩餘金額',

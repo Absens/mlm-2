@@ -48,7 +48,7 @@
   }
 ?>
 
-<ul>
+<ul id="mainTree">
   <li>
     <a href="#" tabindex="0" role="button" data-toggle="modal" data-target="#showModal" data-id="{{ $model->username }}"><i class="md md-accessibility"></i> {{ $model->username }}</a>
     @if ($children = $repo->findChildren($model)) <!-- render 4 levels -->

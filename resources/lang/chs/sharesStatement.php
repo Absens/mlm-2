@@ -5,10 +5,11 @@ return [
 	'subTitle' => '您的MD积分交易记录。',
 	'buyList' => '买入报表',
 	'sellList' => '卖出报表',
-    'returnList' => '返回列表',
+    'returnList' => '返回/分页表',
 	'sellTitle' => '<span class="theme-text">卖出</span> 创立日期', // don't remove <span></span>
 	'buyTitle' => '<span class="theme-text">买入</span> 创立日期', // don't remove <span></span>
     'returnTitle' => '<span class="theme-text">返回</span> 创立日期',
+    'splitTitle' => '<span class="theme-text">分裂</span> 创立日期', // don't remove <span></span>
     'id' => '#ID',
 	'amount' => '数量',
     'amountLeft' => '剩余数量',

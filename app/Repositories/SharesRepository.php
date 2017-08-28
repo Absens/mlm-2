@@ -232,8 +232,11 @@ class SharesRepository extends BaseRepository
             'updated_at' => Carbon::now()
         ]);
 
-        if (!$this->repurchaseSell($member, $buyBackAmount, $wallet)) {
+        $left = $this->repurchaseSell($member, $buyBackAmount, $wallet);
+        if (!$left) {
             $wallet->purchase_point += $buyBackAmount;
+        } else {
+            $wallet->purchase_point += $left;
         }
 
         $wallet->save();
@@ -323,24 +326,43 @@ class SharesRepository extends BaseRepository
         // check if there is any available shares to buy
         // sort from highest price
         $state = $this->getCurrentShareState();
+        $origAmount = $amount;
         $sharesToBuy = $this->modelSell->where('has_process', 0)->where('member_id', '!=', $member->id)->orderBy('share_price', 'desc')->get();
         $quantity = 0;
         if (count($sharesToBuy) <= 0 || $state->always_company) { // no shares to buy
             return false;
         } else {
             $sharePrice = 0;
+            $amountTotal = 0;
+            if (is_null($wallet)) $wallet = $member->wallet;
             foreach ($sharesToBuy as $shares) {
                 if ($sharePrice < $shares->share_price) $sharePrice = $shares->share_price;
                 $amountToSell = $shares->amount_left * $shares->share_price;
                 if ($amountToSell > $amount) { // available shares more than amount
-                    $quantityToBuy = (int) $amount / $shares->share_price;
+                    $quantityToBuy = $amount / $shares->share_price;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
                         $quantityToBuy = floor($quantityToBuy - $checkQ);
                     }
                     $shares->amount_left -= $quantityToBuy;
                     $quantity += $quantityToBuy;
+                    $amountTotal += $quantityToBuy * $shares->share_price;
                     $shares->save();
+
+                    \DB::table('Shares_Buy')->insert([
+                        'amount'    =>  $quantityToBuy,
+                        'amount_left'   =>  $quantityToBuy,
+                        'member_id' =>  $member->id,
+                        'has_process'   =>  0,
+                        'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
+                        'total' =>  $quantityToBuy * $shares->share_price,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
+                    $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
+                    if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+
                 } else { // available shares less than amount
                     $quantityToBuy = $shares->amount_left;
                     $checkQ = $quantityToBuy % 10;
@@ -350,7 +372,23 @@ class SharesRepository extends BaseRepository
                     $shares->amount_left = 0;
                     $shares->has_process = 1;
                     $quantity += $quantityToBuy;
+                    $amountTotal += $quantityToBuy * $shares->share_price;
                     $shares->save();
+
+                    \DB::table('Shares_Buy')->insert([
+                        'amount'    =>  $quantityToBuy,
+                        'amount_left'   =>  $quantityToBuy,
+                        'member_id' =>  $member->id,
+                        'has_process'   =>  0,
+                        'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
+                        'total' =>  $quantityToBuy * $shares->share_price,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
+                    $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
+                    if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+
                 }
                 // process the shares sales, if it is not admin
                 if (!$shares->is_admin) {
@@ -367,31 +405,38 @@ class SharesRepository extends BaseRepository
                     $quantityLeft = floor($quantityLeft - $checkQ);
                 }
                 $quantity += $quantityLeft;
+                $amountTotal += $quantityToBuy * $state->current_price;
+
+                \DB::table('Shares_Buy')->insert([
+                    'amount'    =>  $quantityLeft,
+                    'amount_left'   =>  $quantityLeft,
+                    'member_id' =>  $member->id,
+                    'has_process'   =>  0,
+                    'share_price'   =>  $state->current_price,
+                    'total' =>  $quantityLeft * $state->current_price,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now()
+                ]);
+
+                $wallet->purchase_point -= $quantityLeft * $quantityLeft * $state->current_price;
+                if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             }
 
-            $total = $quantity * $sharePrice;
-            $this->saveModel($this->modelBuy, [
-                'amount'    =>  $quantity,
-                'amount_left'   =>  $quantity,
-                'member_id' =>  $member->id,
-                'has_process'   =>  0,
-                'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
-                'total' =>  $total
-            ]);
-            
-            if (is_null($wallet)) $wallet = $member->wallet;
-            $wallet->purchase_point -= $total;
-            if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             $wallet->save();
 
-            // add freeze shares data
-            \DB::table('Member_Freeze_Shares')->insert([
-                'member_id' =>  $member->id,
-                'amount'    =>  $quantity,
-                'active_date'   =>  Carbon::now()->addDays(15),
-                'created_at'    =>  Carbon::now(),
-                'updated_at'    =>  Carbon::now()
-            ]);
+            if ($quantity != 0) {
+                // $total = $quantity * $sharePrice;
+
+                // add freeze shares data
+                \DB::table('Member_Freeze_Shares')->insert([
+                    'member_id' =>  $member->id,
+                    'amount'    =>  $quantity,
+                    'active_date'   =>  Carbon::now()->addDays(15),
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now()
+                ]);
+            }
+            return $origAmount - $amountTotal;
         }
         return true;
     }
@@ -425,13 +470,15 @@ class SharesRepository extends BaseRepository
             $total = $quantity * $state->current_price;
             if ($total > $amount) $total = $amount;
 
-            $this->saveModel($this->modelBuy, [
+            \DB::table('Shares_Buy')->insert([
                 'amount'    =>  $quantity,
                 'amount_left'   =>  $quantity,
                 'member_id' =>  $member->id,
                 'has_process'   =>  0,
                 'share_price'   =>  $state->current_price,
-                'total' =>  $total
+                'total' =>  $total,
+                'created_at'    =>  Carbon::now(),
+                'updated_at'    =>  Carbon::now()
             ]);
 
             \DB::table('Member_Freeze_Shares')->insert([
@@ -449,18 +496,35 @@ class SharesRepository extends BaseRepository
             $this->accumulateSharesState($state, $quantity);
         } else {
             $sharePrice = 0;
+            $amountTotal = 0;
+            if (is_null($wallet)) $wallet = $member->wallet;
             foreach ($sharesToBuy as $shares) {
+                $shares = $this->modelSell->where('id', $shares->id)->first(); // get the REAL value of the sales
                 if ($sharePrice < $shares->share_price) $sharePrice = $shares->share_price;
                 $amountToSell = $shares->amount_left * $shares->share_price;
                 if ($amountToSell > $amount) { // available shares more than amount
-                    $quantityToBuy = (int) $amount / $shares->share_price;
+                    $quantityToBuy = $amount / $shares->share_price;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
                         $quantityToBuy = floor($quantityToBuy - $checkQ);
                     }
                     $shares->amount_left -= $quantityToBuy;
                     $quantity += $quantityToBuy;
+                    $amountTotal += $quantityToBuy * $shares->share_price;
                     $shares->save();
+
+                    $this->saveModel($this->modelBuy, [
+                        'amount'    =>  $quantityToBuy,
+                        'amount_left'   =>  $quantityToBuy,
+                        'member_id' =>  $member->id,
+                        'has_process'   =>  0,
+                        'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
+                        'total' =>  $quantityToBuy * $shares->share_price
+                    ]);
+
+                    $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
+                    if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+
                 } else { // available shares less than amount
                     $quantityToBuy = $shares->amount_left;
                     $checkQ = $quantityToBuy % 10;
@@ -471,6 +535,20 @@ class SharesRepository extends BaseRepository
                     $shares->has_process = 1;
                     $quantity += $quantityToBuy;
                     $shares->save();
+
+                    \DB::table('Shares_Buy')->insert([
+                        'amount'    =>  $quantityToBuy,
+                        'amount_left'   =>  $quantityToBuy,
+                        'member_id' =>  $member->id,
+                        'has_process'   =>  0,
+                        'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
+                        'total' =>  $quantityToBuy * $shares->share_price,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
+                    $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
+                    if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
                 }
                 // process the shares sales, if it is not admin
                 if (!$shares->is_admin) {
@@ -486,23 +564,21 @@ class SharesRepository extends BaseRepository
                 if ($checkQ != 0) {
                     $quantityLeft = floor($quantityLeft - $checkQ);
                 }
-                $quantity += $quantityLeft;
+                $this->saveModel($this->modelBuy, [
+                    'amount'    =>  $quantityLeft,
+                    'amount_left'   =>  $quantityLeft,
+                    'member_id' =>  $member->id,
+                    'has_process'   =>  0,
+                    'share_price'   =>  $state->current_price,
+                    'total' =>  $quantityLeft * $state->current_price,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now()
+                ]);
+
+                $wallet->purchase_point -= $quantityLeft * $state->current_price;
+                if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             }
-
-            $total = $quantity * $sharePrice;
-
-            $this->saveModel($this->modelBuy, [
-                'amount'    =>  $quantity,
-                'amount_left'   =>  $quantity,
-                'member_id' =>  $member->id,
-                'has_process'   =>  0,
-                'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
-                'total' =>  $total
-            ]);
             
-            if (is_null($wallet)) $wallet = $member->wallet;
-            $wallet->purchase_point -= $total;
-            if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             $wallet->save();
 
             // add freeze shares data
@@ -666,7 +742,7 @@ class SharesRepository extends BaseRepository
      * @return boolean
      */
     public function splitShares ($splitTo, $splitMult=null) {
-        if ($this->modelSell->count() > 0) {
+        if ($this->modelSell->where('has_process', 0)->count() > 0) {
             throw new \Exception(\Lang::get('error.splitSellStillExists'), 1);
             return false;
         }
@@ -770,6 +846,19 @@ class SharesRepository extends BaseRepository
      */
     public function returnList ($member) {
         return Datatables::queryBuilder(\DB::table('Shares_Return_Statement')->where('member_id', $member->id))
+            ->editColumn('amount', function ($model) {
+                return number_format($model->amount, 0);
+            })
+            ->make(true);
+    }
+
+    /**
+     * Split List - DataTable
+     * @param App\Models\Member $member
+     * @return object
+     */
+    public function splitList ($member) {
+        return Datatables::queryBuilder(\DB::table('Shares_Split_Statement')->where('member_id', $member->id))
             ->editColumn('amount', function ($model) {
                 return number_format($model->amount, 0);
             })

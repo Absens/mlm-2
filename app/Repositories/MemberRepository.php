@@ -10,6 +10,7 @@ use App\Models\MemberFreezeShares;
 use App\Repositories\PackageRepository;
 use App\Repositories\BonusRepository;
 use Yajra\Datatables\Facades\Datatables;
+use Carbon\Carbon;
 
 class MemberRepository extends BaseRepository
 {
@@ -607,8 +608,21 @@ class MemberRepository extends BaseRepository
         $this->model->chunk(100, function ($members) use ($mult) {
             foreach ($members as $member) {
                 $shares = $member->shares;
-                $shares->amount *= $mult;
-                $shares->save();
+                $add = $shares->amount * $mult;
+                $amount = $add - $shares->amount;
+                $shares->amount += $amount;
+
+                if ($amount > 0) {
+                    \DB::table('Shares_Split_Statement')->insert([
+                        'amount' => $amount,
+                        'username' => $member->username,
+                        'member_id' => $member->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+
+                    $shares->save();
+                }
             }
         });
 

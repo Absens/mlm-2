@@ -46,10 +46,6 @@
                           <th data-id="amount_left">@lang('sharesStatement.amountLeft')</th>
                           <th data-id="share_price">@lang('sharesStatement.price')</th>
                           <th data-id="total">@lang('sharesStatement.total')</th>
-{{--                           <th data-id="cash_point">@lang('sharesStatement.cash')</th>
-                          <th data-id="purchase_point">@lang('sharesStatement.purchase')</th>
-                          <th data-id="md_point">@lang('sharesStatement.md')</th>
-                          <th data-id="admin_fee">@lang('sharesStatement.fee')</th> --}}
                           <th data-id="action"></th>
                         </tr>
                       </thead>
@@ -83,19 +79,42 @@
             </div>
 
             <div role="tabpanel" class="tab-pane" id="return">
-              <div class="card">
-                <div class="card-content">
-                  <div class="datatables">
-                    <table class="table table-full table-full-small dt-responsive display nowrap table-grid" cellspacing="0" width="100%" role="grid" data-url="{{ route('shares.returnList', ['lang' => \App::getLocale()]) }}">
-                      <thead>
-                        <tr>
-                          <th data-id="created_at">@lang('sharesStatement.returnTitle')</th>
-                          <th data-id="amount">@lang('sharesStatement.amount')</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      </tbody>
-                    </table>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="datatables">
+                        <table class="table table-full table-full-small dt-responsive display nowrap table-grid" cellspacing="0" width="100%" role="grid" data-url="{{ route('shares.returnList', ['lang' => \App::getLocale()]) }}">
+                          <thead>
+                            <tr>
+                              <th data-id="created_at">@lang('sharesStatement.returnTitle')</th>
+                              <th data-id="amount">@lang('sharesStatement.amount')</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-content">
+                      <div class="datatables">
+                        <table class="table table-full table-full-small dt-responsive display nowrap table-grid" cellspacing="0" width="100%" role="grid" data-url="{{ route('shares.splitList', ['lang' => \App::getLocale()]) }}">
+                          <thead>
+                            <tr>
+                              <th data-id="created_at">@lang('sharesStatement.splitTitle')</th>
+                              <th data-id="amount">@lang('sharesStatement.amount')</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

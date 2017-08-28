@@ -29,7 +29,7 @@
           </div>
 
           <div class="row m-b-40">
-            <div class="col-md-8">
+            <div class="col-md-12">
               <div class="well white m-b-10">
                 <form class="floating-label" data-parsley-validate="" role="form" id="binaryForm" data-url="{{ route('member.getBinary', ['lang' => \App::getLocale()]) }}" onsubmit="return false;">
                   <fieldset>
@@ -65,12 +65,12 @@
                   </button>
                 </div>
               </div>
-              <div class="well white m-b-10" style="overflow:auto;">
+              <div class="well white m-b-10" id="binaryContainer">
                 <div id="binaryNetwork" class="clearfix" data-show="{{ route('member.binary.modal', ['lang' => \App::getLocale()]) }}">
                   <div class="loader">
                     <img src="{{ asset('assets/img/loading.gif') }}" alt="Network Loading">
                   </div>
-                  <div id="binaryContent" style="overflow:auto;">
+                  <div id="binaryContent">
                     <div class="alert alert-warning">
                       @lang('binary.notice')
                     </div>
