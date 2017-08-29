@@ -360,6 +360,14 @@ class SharesRepository extends BaseRepository
                         'updated_at'    =>  Carbon::now()
                     ]);
 
+                    \DB::table('Member_Freeze_Shares')->insert([
+                        'member_id' =>  $member->id,
+                        'amount'    =>  $quantityToBuy,
+                        'active_date'   =>  Carbon::now()->addDays(15),
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
                     $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
                     if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
 
@@ -382,6 +390,14 @@ class SharesRepository extends BaseRepository
                         'has_process'   =>  0,
                         'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
                         'total' =>  $quantityToBuy * $shares->share_price,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
+                    \DB::table('Member_Freeze_Shares')->insert([
+                        'member_id' =>  $member->id,
+                        'amount'    =>  $quantityToBuy,
+                        'active_date'   =>  Carbon::now()->addDays(15),
                         'created_at'    =>  Carbon::now(),
                         'updated_at'    =>  Carbon::now()
                     ]);
@@ -418,24 +434,19 @@ class SharesRepository extends BaseRepository
                     'updated_at'    =>  Carbon::now()
                 ]);
 
+                \DB::table('Member_Freeze_Shares')->insert([
+                    'member_id' =>  $member->id,
+                    'amount'    =>  $quantityLeft,
+                    'active_date'   =>  Carbon::now()->addDays(15),
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now()
+                ]);
+
                 $wallet->purchase_point -= $quantityLeft * $quantityLeft * $state->current_price;
                 if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             }
 
             $wallet->save();
-
-            if ($quantity != 0) {
-                // $total = $quantity * $sharePrice;
-
-                // add freeze shares data
-                \DB::table('Member_Freeze_Shares')->insert([
-                    'member_id' =>  $member->id,
-                    'amount'    =>  $quantity,
-                    'active_date'   =>  Carbon::now()->addDays(15),
-                    'created_at'    =>  Carbon::now(),
-                    'updated_at'    =>  Carbon::now()
-                ]);
-            }
             return $origAmount - $amountTotal;
         }
         return true;
@@ -513,13 +524,21 @@ class SharesRepository extends BaseRepository
                     $amountTotal += $quantityToBuy * $shares->share_price;
                     $shares->save();
 
-                    $this->saveModel($this->modelBuy, [
+                    \DB::table('Shares_Buy')->insert([
                         'amount'    =>  $quantityToBuy,
                         'amount_left'   =>  $quantityToBuy,
                         'member_id' =>  $member->id,
                         'has_process'   =>  0,
                         'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
                         'total' =>  $quantityToBuy * $shares->share_price
+                    ]);
+
+                    \DB::table('Member_Freeze_Shares')->insert([
+                        'member_id' =>  $member->id,
+                        'amount'    =>  $quantityToBuy,
+                        'active_date'   =>  Carbon::now()->addDays(30),
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
                     ]);
 
                     $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
@@ -543,6 +562,14 @@ class SharesRepository extends BaseRepository
                         'has_process'   =>  0,
                         'share_price'   =>  is_null($sharePrice) ? 0 : $sharePrice,
                         'total' =>  $quantityToBuy * $shares->share_price,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now()
+                    ]);
+
+                    \DB::table('Member_Freeze_Shares')->insert([
+                        'member_id' =>  $member->id,
+                        'amount'    =>  $quantityToBuy,
+                        'active_date'   =>  Carbon::now()->addDays(30),
                         'created_at'    =>  Carbon::now(),
                         'updated_at'    =>  Carbon::now()
                     ]);
@@ -575,20 +602,19 @@ class SharesRepository extends BaseRepository
                     'updated_at'    =>  Carbon::now()
                 ]);
 
+                \DB::table('Member_Freeze_Shares')->insert([
+                    'member_id' =>  $member->id,
+                    'amount'    =>  $quantityLeft,
+                    'active_date'   =>  Carbon::now()->addDays(30),
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now()
+                ]);
+
                 $wallet->purchase_point -= $quantityLeft * $state->current_price;
                 if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             }
             
             $wallet->save();
-
-            // add freeze shares data
-            \DB::table('Member_Freeze_Shares')->insert([
-                'member_id' =>  $member->id,
-                'amount'    =>  $quantity,
-                'active_date'   =>  Carbon::now()->addDays(30),
-                'created_at'    =>  Carbon::now(),
-                'updated_at'    =>  Carbon::now()
-            ]);
         }
         return true;
     }
