@@ -20,7 +20,7 @@ return [
 	'sharesLink1'	=>	'MD积分交易市场',
 	'sharesLink2'	=>	'MD积分（锁）报表',
 	'sharesLink3'	=>	'MD积分交易报表',
-	'sharesReturn'  =>  'MD Shares Return Statement',
+	'sharesReturn'  =>  'MD积分退还/拆分报表',
 	'transactionTitle'	=>	'交易中心',
 	'transactionLink1'	=>	'积分交易中心',
 	'transactionLink2'	=>	'提现申请',

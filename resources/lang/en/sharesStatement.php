@@ -11,10 +11,10 @@ return [
     'returnTitle' => '<span class="theme-text">RETURN</span> Created Date', // don't remove <span></span>
     'splitTitle' => '<span class="theme-text">SPLIT</span> Created Date', // don't remove <span></span>
     'id' => '#ID',
-	'amount' => 'Amount',
-    'amountLeft' => 'Amount Left',
+	'amount' => 'Quantity',
+    'amountLeft' => 'Quantity Left',
 	'price' => 'Price',
-	'total' => 'Total',
+	'total' => 'Total Amount',
     'cash' => 'Cash Point',
     'purchase' => 'Purchase Point',
     'md' => 'MD Point',
@@ -22,5 +22,13 @@ return [
     'sellModalTitle' => 'Shares Sales Statement',
     'detail' => 'See Statement',
     'modalHeader' => 'Sales for Share ',
-    'noStatement' => 'No statement in this shares yet.'
+    'noStatement' => 'No statement in this shares yet.',
+    'modal.createdDate' => 'Created Date',
+    'modal.quantity' => 'Quantity (Shares Amount of sold out)',
+    'modal.price' => 'Price',
+    'modal.status' => 'Status',
+    'modal.statement.sold' => 'SOLD OUT',
+    'modal.statement.return' => 'RETURN',
+    'modal.status.complete' => 'COMPLETED',
+    'modal.status.queue' => 'IN QUEUE',
 ];

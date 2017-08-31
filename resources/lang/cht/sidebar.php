@@ -20,7 +20,7 @@ return [
 	'sharesLink1'	=>	'MD積分交易市場',
 	'sharesLink2'	=>	'MD積分（鎖）報表',
 	'sharesLink3'	=>	'MD積分交易報表',
-	'sharesReturn'  =>  'MD Shares Return Statement',
+	'sharesReturn'  =>  'MD積分退還/拆分報表',
 	'transactionTitle'	=>	'交易中心',
 	'transactionLink1'	=>	'積分交易中心',
 	'transactionLink2'	=>	'提現申請',

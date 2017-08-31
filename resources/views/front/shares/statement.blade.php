@@ -26,7 +26,7 @@
         </div>
 
         <div>
-          <ul class="nav nav-tabs" role="tablist">
+          <ul class="nav nav-tabs nav-justified" role="tablist">
             <li role="presentation" class="active"><a href="#sell" aria-controls="sell" role="tab" data-toggle="tab">@lang('sharesStatement.sellList')</a></li>
             <li role="presentation"><a href="#buy" aria-controls="buy" role="tab" data-toggle="tab">@lang('sharesStatement.buyList')</a></li>
             <li role="presentation"><a href="#return" aria-controls="return" role="tab" data-toggle="tab">@lang('sharesStatement.returnList')</a></li>
@@ -40,13 +40,13 @@
                     <table class="table table-full table-full-small dt-responsive display nowrap table-grid" cellspacing="0" width="100%" role="grid" data-url="{{ route('shares.sellList', ['lang' => \App::getLocale()]) }}">
                       <thead>
                         <tr>
-                          <th data-id="created_at">@lang('sharesStatement.sellTitle')</th>
+                          <th data-id="created_at" data-priority="1">@lang('sharesStatement.sellTitle')</th>
                           <th data-id="id">@lang('sharesStatement.id')</th>
                           <th data-id="amount">@lang('sharesStatement.amount')</th>
                           <th data-id="amount_left">@lang('sharesStatement.amountLeft')</th>
                           <th data-id="share_price">@lang('sharesStatement.price')</th>
-                          <th data-id="total">@lang('sharesStatement.total')</th>
-                          <th data-id="action"></th>
+                          <th data-id="total" data-priority="1">@lang('sharesStatement.total')</th>
+                          <th data-id="action" data-priority="1"></th>
                         </tr>
                       </thead>
                       <tbody>

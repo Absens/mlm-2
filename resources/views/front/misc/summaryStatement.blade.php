@@ -36,7 +36,7 @@
                     <thead>
                       <tr>
                         <th data-id="created_at">@lang('misc.create')</th>
-                        <th data-id="from_username">@lang('common.from')</th>
+                        <th data-id="from_username" data-visible="xs">@lang('common.from')</th>
                         <th data-id="to_username">@lang('common.to')</th>
                         <th data-id="type">@lang('misc.transfer.type')</th>
                         <th data-id="amount">@lang('misc.transfer.amount')</th>

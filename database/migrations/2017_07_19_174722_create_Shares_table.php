@@ -65,6 +65,9 @@ class CreateSharesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('member_id')->default(0);
             $table->unsignedInteger('sell_id')->default(0);
+            $table->unsignedInteger('amount')->default(0);
+            $table->string('status', 50)->nullable();
+            $table->decimal('share_price', 16, 4)->default(0);
             $table->decimal('cash_point', 16, 4)->default(0);
             $table->decimal('md_point', 16, 4)->default(0);
             $table->decimal('purchase_point', 16, 4)->default(0);

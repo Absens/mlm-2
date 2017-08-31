@@ -224,10 +224,13 @@ class SharesRepository extends BaseRepository
         \DB::table('Shares_Sell_Statement')->insert([
             'member_id' => $member->id,
             'sell_id' => $share->id,
+            'amount' => $quantity,
             'cash_point' => $cash,
             'purchase_point' => $buyBackAmount,
             'md_point' => $md,
+            'share_price' => $share->share_price,
             'admin_fee' => ($values['fee'] / 100) * $amount,
+            'status' => 'sold',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -771,8 +774,26 @@ class SharesRepository extends BaseRepository
                             $memberShares->save();
                         }
                     }
+
+                    // record sales
+                    \DB::table('Shares_Sell_Statement')->insert([
+                        'member_id' => $member->id,
+                        'sell_id' => $share->id,
+                        'amount' => $share->amount_left,
+                        'share_price' => $share->share_price,
+                        'cash_point' => 0,
+                        'purchase_point' => 0,
+                        'md_point' => 0,
+                        'admin_fee' => 0,
+                        'status' => 'return',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
                 }
-                $share->delete();
+
+                $share->amount_left = 0;
+                $share->has_process = 1;
+                $share->save();
             }
         });
         return true;
