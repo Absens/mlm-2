@@ -240,8 +240,7 @@ class SharesRepository extends BaseRepository
         }
 
         $wallet->save();
-
-        $this->accumulateSharesState(null, $quantity);
+        // $this->accumulateSharesState(null, $quantity);
         return true;
     }
 
@@ -312,6 +311,8 @@ class SharesRepository extends BaseRepository
         $wallet->purchase_point -= $amount;
         $wallet->save();
 
+        $this->accumulateSharesState(null, $quantity);
+
         return true;
     }
 
@@ -339,6 +340,7 @@ class SharesRepository extends BaseRepository
                 if ($sharePrice < $shares->share_price) $sharePrice = $shares->share_price;
                 $amountToSell = $shares->amount_left * $shares->share_price;
                 if ($amountToSell > $amount) { // available shares more than amount
+
                     $quantityToBuy = $amount / $shares->share_price;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
@@ -372,6 +374,7 @@ class SharesRepository extends BaseRepository
                     if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
 
                 } else { // available shares less than amount
+
                     $quantityToBuy = $shares->amount_left;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
@@ -406,10 +409,12 @@ class SharesRepository extends BaseRepository
                     if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
 
                 }
+
                 // process the shares sales, if it is not admin
                 if (!$shares->is_admin) {
                     $this->processSalesShares($shares, $quantityToBuy);
                 }
+
                 $amount -= $amountToSell;
                 if ($amount <= 0) break;
             }
@@ -446,6 +451,8 @@ class SharesRepository extends BaseRepository
                 if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             }
 
+            $this->accumulateSharesState(null, $quantity);
+
             $wallet->save();
             return $origAmount - $amountTotal;
         }
@@ -466,11 +473,13 @@ class SharesRepository extends BaseRepository
         if ($state->always_company) {
             $sharesToBuy = $sharesToBuy->where('is_admin', 1);
         }
+
         // sort from lowest price
         $sharesToBuy = $sharesToBuy->orderBy('share_price', 'asc')->get();
         $quantity = 0;
 
         if (count($sharesToBuy) <= 0 || $state->always_company) { // no shares to buy, buy from company
+
             $quantity = round($amount / $state->current_price);
 
             $checkQuantity = $quantity % 10;
@@ -504,7 +513,8 @@ class SharesRepository extends BaseRepository
             $wallet->purchase_point -= $total;
             if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
             $wallet->save();
-            $this->accumulateSharesState($state, $quantity);
+            $this->accumulateSharesState(null, $quantity);
+
         } else {
             $sharePrice = 0;
             $amountTotal = 0;
@@ -543,8 +553,10 @@ class SharesRepository extends BaseRepository
 
                     $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
                     if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+                    // $this->accumulateSharesState(null, $quantityToBuy);
 
                 } else { // available shares less than amount
+
                     $quantityToBuy = $shares->amount_left;
                     $checkQ = $quantityToBuy % 10;
                     if ($checkQ != 0) {
@@ -576,6 +588,8 @@ class SharesRepository extends BaseRepository
 
                     $wallet->purchase_point -= $quantityToBuy * $shares->share_price;
                     if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+                    // $this->accumulateSharesState(null, $quantityToBuy);
+
                 }
                 // process the shares sales, if it is not admin
                 if (!$shares->is_admin) {
@@ -591,6 +605,7 @@ class SharesRepository extends BaseRepository
                 if ($checkQ != 0) {
                     $quantityLeft = floor($quantityLeft - $checkQ);
                 }
+                $quantity += $quantityLeft;
                 $this->saveModel($this->modelBuy, [
                     'amount'    =>  $quantityLeft,
                     'amount_left'   =>  $quantityLeft,
@@ -612,8 +627,10 @@ class SharesRepository extends BaseRepository
 
                 $wallet->purchase_point -= $quantityLeft * $state->current_price;
                 if ($wallet->purchase_point < 0) $wallet->purchase_point = 0;
+                // $this->accumulateSharesState(null, $quantityLeft);
             }
-            
+
+            $this->accumulateSharesState(null, $quantity);
             $wallet->save();
         }
         return true;
@@ -717,7 +734,7 @@ class SharesRepository extends BaseRepository
         $currentAmount = $state->current_accumulate + $quantity;
         if ($currentAmount > $state->raise_limit) {
             $updateSharesData =  [
-                'current_accumulate' => 0,
+                'current_accumulate' => $currentAmount - $state->raise_limit,
                 'current_price'  =>  $state->current_price + $state->raise_by
             ];
         } else {

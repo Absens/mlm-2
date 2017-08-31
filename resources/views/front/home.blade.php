@@ -174,7 +174,7 @@
                     <div class="panel panel-default">
                       <div class="panel-heading">
                         <h2 class="panel-title grey-text">@lang('common.mdpoint')</h2>
-                        <h1 class="m-t-10 m-b-5 f30">{{ number_format($member->wallet->md_point, 0) }}</h1>
+                        <h1 class="m-t-10 m-b-5 f30">{{ number_format($member->wallet->md_point, 2) }}</h1>
                         <div class="row">
                           <div class="col-xs-6">
                             <div class="progress m-b-5">
