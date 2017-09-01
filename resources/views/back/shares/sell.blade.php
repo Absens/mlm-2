@@ -35,13 +35,8 @@
                     <fieldset>
                       <div class="form-group">
                         <label class="control-label">Price</label>
-                        <select class="form-control" name="price" required="">
-                          <?php $price = 0.200; ?>
-                          @for ($i=0; $i<=20; $i++)
-                            <option value="{{ $price }}">{{ $price }}</option>
-                            <?php $price += 0.001; ?>
-                          @endfor
-                        </select>
+                        <input type="number" step="any" name="price" class="form-control" placeholder="Use dot for decimal separator..">
+                        <span class="help-block">example: 0.200</span>
                       </div>
 
                       <div class="form-group">

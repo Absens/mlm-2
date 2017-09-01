@@ -181,7 +181,7 @@ class SharesRepository extends BaseRepository
             $models = $models->where('is_admin', 1);
         }
 
-        $models = $models->orderBy('created_at', 'asc')->orderBy('is_admin', 'asc')->get();
+        $models = $models->orderBy('created_at', 'asc')->orderBy('is_admin', 'desc')->get();
 
         foreach ($models as $model) {
             $amount = $model->amount;
@@ -331,7 +331,12 @@ class SharesRepository extends BaseRepository
         // sort from highest price
         $state = $this->getCurrentShareState();
         $origAmount = $amount;
-        $sharesToBuy = $this->modelSell->where('has_process', 0)->where('member_id', '!=', $member->id)->orderBy('share_price', 'desc')->get();
+        $sharesToBuy = $this->modelSell->where('has_process', 0)
+            ->where('member_id', '!=', $member->id)
+            ->orderBy('is_admin', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->orderBy('share_price', 'desc')
+            ->get();
         $quantity = 0;
         if (count($sharesToBuy) <= 0 || $state->always_company) { // no shares to buy
             return false;
@@ -478,7 +483,12 @@ class SharesRepository extends BaseRepository
         }
 
         // sort from lowest price
-        $sharesToBuy = $sharesToBuy->orderBy('share_price', 'asc')->get();
+        $sharesToBuy = $sharesToBuy
+            ->orderBy('is_admin', 'desc')
+            ->orderBy('created_at', 'asc')
+            ->orderBy('share_price', 'asc')
+            ->get();
+
         $quantity = 0;
 
         if (count($sharesToBuy) <= 0 || $state->always_company) { // no shares to buy, buy from company
@@ -720,7 +730,7 @@ class SharesRepository extends BaseRepository
             'is_admin' => true
         ]);
 
-        $this->accumulateSharesState($state, $quantity);
+        // $this->accumulateSharesState($state, $quantity);
         return true;
     }
 

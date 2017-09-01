@@ -1,5 +1,5 @@
 <?php
-\Cache::flush();
+// \Cache::flush();
 
 // use App\Models\Member;
 // use App\Repositories\SharesRepository;

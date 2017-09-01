@@ -64,6 +64,9 @@ class WithdrawRepository extends BaseRepository
                     elseif ($model->status == 'reject') return '<label class="label label-danger">REJECT</label>';
                     else return '<label class="label label-default">PROCESS</label>';
                 })
+                ->editColumn('admin', function ($model) {
+                    return number_format($model->admin, 2);
+                })
                 ->editColumn('amount', function ($model) {
                     return number_format($model->amount, 2);
                 })
@@ -96,21 +99,12 @@ class WithdrawRepository extends BaseRepository
             'member_id' =>  $member->id,
             'username'  =>  $member->username,
             'amount'    =>  $wdAmount,
+            'admin'     =>  $adminFee,
             'status'    =>  'process'
         ]);
 
         $wallet->cash_point -= $wdAmount;
         $wallet->save();
-
-        // add admin fee record
-        // \DB::table('Admin_Fees')->insert([
-        //     'amount'        =>  $adminFee,
-        //     'type'          =>  'withdraw',
-        //     'username'      =>  $member->username,
-        //     'created_at'    =>  Carbon::now(),
-        //     'updated_at'    =>  Carbon::now()
-        // ]);
-
         return true;
     }
 
@@ -125,6 +119,9 @@ class WithdrawRepository extends BaseRepository
                 if ($model->status == 'done') return '<label class="label label-success">' . \Lang::get('common.status.done') . '</label>';
                 elseif ($model->status == 'reject') return '<label class="label label-danger">' . \Lang::get('common.status.reject') . '</label>';
                 else return '<label class="label label-default">' . \Lang::get('common.status.process') . '</label>';
+            })
+            ->editColumn('admin', function ($model) {
+                return number_format($model->admin, 2);
             })
             ->editColumn('amount', function ($model) {
                 return number_format($model->amount, 2);

@@ -33,6 +33,7 @@
                     <th data-id="created_at">Created Date</th>
                     <th data-id="username">Username</th>
                     <th data-id="amount">Amount</th>
+                    <th data-id="admin">Admin Fee</th>
                     <th data-id="status">Status</th>
                     <th data-id="action">Action</th>
                   </tr>

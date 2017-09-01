@@ -3,7 +3,7 @@
   $repo = new MemberRepository;
 
   function renderTree ($member, $level, $html) {
-    if ($level >= 3) return;
+    if ($level >= 1) return;
     $repo = new MemberRepository;
     $html = '';
     if ($children = $repo->findChildren($member)) {
@@ -23,7 +23,7 @@
               </li>';
           }
 
-          if ($level < 2) {
+          if ($level < 0) {
             $html .= '<li>
               <a href="#" data-toggle="modal" data-target="#showModal" tabindex="0" role="button" data-id="' . $child->username . '"><i class="md md-accessibility"></i> ' . $child->username . ' (' . strtoupper($child->position[0]) . ')</a>';
           } else {

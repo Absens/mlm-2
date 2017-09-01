@@ -18,6 +18,7 @@ class CreateWithdrawTable extends Migration
             $table->unsignedInteger('member_id');
             $table->string('username', 255)->nullable();
             $table->string('status', 50)->nullable();
+            $table->decimal('admin', 16, 4)->default(0);
             $table->decimal('amount', 16, 4)->default(0);
             $table->timestamps();
 

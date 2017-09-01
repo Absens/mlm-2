@@ -33,6 +33,7 @@
                   <tr>
                     <th data-id="created_at">@lang('wdStatement.create')</th>
                     <th data-id="amount">@lang('wdStatement.amount')</th>
+                    <th data-id="admin">@lang('wdStatement.adminFee')</th>
                     <th data-id="status">@lang('wdStatement.status')</th>
                   </tr>
                 </thead>
