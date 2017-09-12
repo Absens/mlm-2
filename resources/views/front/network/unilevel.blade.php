@@ -1,3 +1,11 @@
+<?php
+  if (\Input::has('rid')) {
+    $sMember = \App\Models\Member::where('id', trim(\Input::get('rid')))->first();
+  } else {
+    $sMember = $member;
+  }
+?>
+
 @extends('front.app')
 
 @section('title')
@@ -27,11 +35,11 @@
           <div class="row m-b-40">
             <div class="col-md-4">
               <div class="well white">
-                <form class="floating-label" data-parsley-validate="" role="form" id="unilevelForm" data-url="{{ route('member.getUnilevel') }}">
+                <form class="floating-label" data-parsley-validate="" role="form" id="unilevelForm" data-url="{{ route('member.getUnilevel', ['lang' => \App::getLocale()]) }}">
                   <fieldset>
                     <div class="form-group">
                       <label class="control-label" for="inputMember">@lang('unilevel.member')</label>
-                      <input type="text" name="u" class="form-control" required="" id="inputMember">
+                      <input type="text" value="{{ $sMember->username }}" name="u" class="form-control" required="" id="inputMember">
                     </div>
 
                     <div class="form-group">
@@ -56,7 +64,7 @@
             <div class="col-md-6">
               <div class="well white">
                 @if (\Input::has('rid'))
-                  <div id="unilevelNetwork" data-url="{{ route('member.unilevelSearch') . '?rid=' . \Input::get('rid') }}"></div>
+                  <div id="unilevelNetwork" data-url="{{ route('member.unilevelSearch', ['lang' => \App::getLocale()]) . '?rid=' . \Input::get('rid') }}"></div>
                 @else
                   <div class="alert alert-warning">
                     @lang('unilevel.notice')

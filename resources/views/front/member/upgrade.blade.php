@@ -41,7 +41,7 @@
 
             <div class="col-md-6">
               <div class="well white">
-                <form class="action-form" data-parsley-validate="" role="form" id="registerForm" http-type="post" data-url="{{ route('member.postUpgrade') }}">
+                <form class="action-form" data-parsley-validate="" role="form" http-type="post" data-url="{{ route('member.postUpgrade') }}">
                   <fieldset>
                     <div class="form-group">
                       <label class="control-label" for="inputPackage">@lang('upgrade.package')</label>

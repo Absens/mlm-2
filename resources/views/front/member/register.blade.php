@@ -1,6 +1,6 @@
 <?php
   use App\Models\Package;
-  $packages = Package::all();
+  $packages = Package::where('package_amount', '!=', 0)->get();
 ?>
 
 @extends('front.app')

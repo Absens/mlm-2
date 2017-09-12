@@ -14,6 +14,17 @@ class PackageSeeder extends Seeder
     {
         $packages = [
             [
+                'package_amount' => 0,
+                'direct_percent' => 0,
+                'pairing_percent'   =>  0,
+                'group_level'   =>  0,
+                'max_pairing_bonus' => 0,
+                'max_pair'  =>  0,
+                'purchase_point' =>  0,
+                'max_share_sale' => 0,
+                'share_limit' =>  0
+            ],
+            [
                 'package_amount' => 100,
                 'direct_percent' => 7,
                 'pairing_percent'   =>  7,

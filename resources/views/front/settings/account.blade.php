@@ -138,7 +138,7 @@
 
                     <div class="form-group">
                       <label class="control-label">@lang('settings.reNewSecret')</label>
-                      <input type="password" class="form-control" data-parsley-equalto="#inputNewPassword" minlength="5">
+                      <input type="password" class="form-control" data-parsley-equalto="#inputNewSecret" minlength="5">
                     </div>
 
                     <div class="form-group">

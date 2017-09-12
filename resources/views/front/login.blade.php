@@ -12,7 +12,7 @@ Login - {{ config('app.name') }}
         <img src="{{ asset('assets/img/logo.png') }}" width="100">
       </div>
     </div>
-    <form class="form-floating action-form" http-type="post" data-url="{{ route('login.post') }}">
+    <form class="form-floating action-form" http-type="post" data-url="{{ route('login.post', ['lang' => \App::getLocale()]) }}">
       <div class="card-content">
         <div class="m-b-30">
           <div class="card-title strong pink-text">@lang('login.title')</div>

@@ -157,7 +157,6 @@
                         <label class="control-label">Package</label>
                         <div class="input-group">
                           <select class="form-control" name="package_amount">
-                            <option value="0" @if ($model->package_amount == 0) selected="" @endif>0</option>
                             @foreach ($packages as $package)
                               <option value="{{ $package->package_amount }}" @if ($model->package_amount == $package->package_amount) selected="" @endif>{{ (float) $package->package_amount }}</option>
                             @endforeach
@@ -356,7 +355,7 @@
             <div class="col-md-6">
               <div class="card">
                 <div class="card-content">
-                  <p class="text-uppercase theme-text">ACcount Password</p>
+                  <p class="text-uppercase theme-text">Account Password</p>
                   <form role="form" class="action-form" data-url="{{ route('admin.member.postUpdate', ['id' => $model->id]) }}" http-type="post" data-parsley-validate="">
                     <fieldset>
                       <div class="form-group">

@@ -50,9 +50,12 @@ class SharesController extends Controller
             ]);
         }
 
+        \Cache::forget('member.' . $user->id);
+
         return \Response::json([
             'type'  =>  'success',
-            'message'   =>  \Lang::get('message.sharesBuySuccess')
+            'message'   =>  \Lang::get('message.sharesBuySuccess'),
+            'redirect'  =>  route('shares.market', ['lang' => \App::getLocale()])
         ]);
     }
 
@@ -72,6 +75,8 @@ class SharesController extends Controller
             ]);
         }
 
+        \Cache::forget('member.' . $user->id);
+
         try {
             $this->SharesRepository->sellShares($member, $data['quantity'], $data['price']);
         } catch (\Exception $e) {
@@ -83,7 +88,8 @@ class SharesController extends Controller
 
         return \Response::json([
             'type'  =>  'success',
-            'message'   =>  \Lang::get('message.sharesSellSuccess')
+            'message'   =>  \Lang::get('message.sharesSellSuccess'),
+            'redirect'  =>  route('shares.market', ['lang' => \App::getLocale()])
         ]);
     }
 

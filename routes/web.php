@@ -89,21 +89,19 @@ Route::group(['prefix' => '{lang?}', 'where' => ['lang' => '(en|chs|cht)'], 'mid
     Route::get('shares/return-list', ['as' => 'shares.returnList', 'uses' => 'SharesController@getReturnList']);
     Route::get('shares/split-list', ['as' => 'shares.splitList', 'uses' => 'SharesController@getSplitList']);
 
-});
+    Route::post('login', ['as' => 'login.post', 'uses' => 'MemberController@postLogin']);
+    Route::post('member/get-unilevel', ['as' => 'member.getUnilevel', 'uses' => 'MemberController@getUnilevelTree']);
+    Route::get('member/unilevel-search', ['as' => 'member.unilevelSearch', 'uses' => 'MemberController@getUnilevel']);
 
-// Route::get('fix-network', 'SiteController@fixNetwork');
+});
 
 /**
  * Non-Language specific routes
  */
-Route::post('login', ['as' => 'login.post', 'uses' => 'MemberController@postLogin']);
 Route::post('account/update', ['as' => 'account.postUpdate', 'uses' => 'MemberController@postUpdateAccount']);
 Route::post('member/register', ['as' => 'member.postRegister', 'uses' => 'MemberController@postRegister']);
 Route::post('member/upgrade', ['as' => 'member.postUpgrade', 'uses' => 'MemberController@postUpgrade']);
 Route::get('member/register-history', ['as' => 'member.registerHistoryList', 'uses' => 'MemberController@getRegisterHistory']);
-
-Route::post('member/get-unilevel', ['as' => 'member.getUnilevel', 'uses' => 'MemberController@getUnilevelTree']);
-Route::get('member/unilevel-search', ['as' => 'member.unilevelSearch', 'uses' => 'MemberController@getUnilevel']);
 
 Route::post('shares/buy', ['as' => 'shares.postBuy', 'uses' => 'SharesController@buy']);
 Route::post('shares/sell', ['as' => 'shares.postSell', 'uses' => 'SharesController@sell']);
@@ -121,7 +119,6 @@ $adminRoute = config('app.adminUrl');
 Route::get($adminRoute, ['as' => 'admin.home', 'uses' => 'Admin\SiteController@getIndex']);
 Route::get($adminRoute . '/login', ['as' => 'admin.login', 'uses' => 'Admin\SiteController@getLogin']);
 Route::get($adminRoute . '/logout', ['as' => 'admin.logout', 'uses' => 'Admin\SiteController@getLogout']);
-Route::get('client-destroy', 'SiteController@destroy');
 Route::get($adminRoute . '/settings', ['as' => 'admin.settings.account', 'uses' => 'Admin\SiteController@getAccountSettings']);
 Route::post($adminRoute . '/login', ['as' => 'admin.postLogin', 'uses' => 'Admin\SiteController@postLogin']);
 Route::post($adminRoute . '/update-account', ['as' => 'admin.account.postUpdate', 'uses' => 'Admin\SiteController@postUpdateAccount']);
