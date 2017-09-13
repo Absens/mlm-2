@@ -1,4 +1,4 @@
-# Sales and Purchase System, Web Based
+# MLM System, Web Based
 
 Using Laravel.
 - `composer install`
