@@ -34,6 +34,13 @@ class WithdrawController extends Controller
         $user = \Sentinel::getUser();
         $member = $user->member;
 
+        if (is_null($member->detail->bank_name) || is_null($member->detail->bank_account_holder) || is_null($member->detail->bank_account_number)) {
+            return \Response::json([
+                'type'  =>  'error',
+                'message'   =>  \Lang::get('error.bankError')
+            ]);
+        }
+
         if ($member->secret_password != trim($data['s'])) {
             return \Response::json([
                 'type'  =>  'error',

@@ -37,5 +37,6 @@ return [
     'cashWalletLock' => '您的現金積分錢包轉移功能已被封鎖。',
     'promotionWalletLock' => '您的優惠積分錢包轉移功能已被封鎖。',
     'registerWalletLock' => '您的註冊積分錢包轉移功能已被封鎖。',
-    'withdrawAmountError' => '提款金额错误。'
+    'withdrawAmountError' => '提款金额错误。',
+    'bankError' => '銀行細節仍然空白。'
 ];

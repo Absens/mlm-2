@@ -37,5 +37,6 @@ return [
     'cashWalletLock' => 'Your cash wallet is locked.',
     'promotionWalletLock' => 'Your promotion wallet is locked.',
     'registerWalletLock' => 'Your register wallet is locked.',
-    'withdrawAmountError' => 'Withdraw amount error.'
+    'withdrawAmountError' => 'Withdraw amount error.',
+    'bankError' => 'Bank detail is still empty.'
 ];

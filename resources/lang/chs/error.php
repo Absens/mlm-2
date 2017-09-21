@@ -37,5 +37,6 @@ return [
     'cashWalletLock' => '您的现金积分钱包转移功能已被封锁。',
     'promotionWalletLock' => '您的优惠积分钱包转移功能已被封锁。',
     'registerWalletLock' => '您的注册积分钱包转移功能已被封锁。',
-    'withdrawAmountError' => '提款金額錯誤。'
+    'withdrawAmountError' => '提款金額錯誤。',
+    'bankError' => '银行细节仍然空白。'
 ];
