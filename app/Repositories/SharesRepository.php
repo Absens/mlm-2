@@ -744,18 +744,23 @@ class SharesRepository extends BaseRepository
         if (is_null($state)) {
             $state = \DB::table('Shares_Centre')->first();
         }
-        $currentAmount = $state->current_accumulate + $quantity;
-        if ($currentAmount > $state->raise_limit) {
-            $updateSharesData =  [
-                'current_accumulate' => $currentAmount - $state->raise_limit,
-                'current_price'  =>  $state->current_price + $state->raise_by
-            ];
+
+        if ($quantity > $state->raise_limit) {
+            $left = $quantity;
+            $price = $state->current_price;
+            while ($left >= $state->raise_limit) {
+                $price += $state->raise_by;
+                $left -= $state->raise_limit;
+            }
+            \DB::table('Shares_Centre')->update([
+                'current_price' => $price,
+                'current_accumulate' => $left
+            ]);
         } else {
-            $updateSharesData =  [
-                'current_accumulate' => $currentAmount
-            ];
+            \DB::table('Shares_Centre')->update([
+                'current_accumulate' => $state->current_accumulate + $quantity
+            ]);
         }
-        \DB::table('Shares_Centre')->update($updateSharesData);
         \Cache::forget('shares.state');
         return true;
     }

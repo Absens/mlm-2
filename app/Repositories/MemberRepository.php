@@ -118,11 +118,9 @@ class MemberRepository extends BaseRepository
     public function findWalletList ($table=false) {
         if (!$table) return $this->walletModel->all();
         else {
-            return Datatables::eloquent($this->walletModel->with('member')->select(['member_id', 'cash_point', 'register_point', 'promotion_point', 'md_point', 'purchase_point', 'created_at']))
+            return Datatables::eloquent($this->walletModel->with('member'))
                 ->addColumn('username', function ($model) {
-                    if ($member = $model->member) {
-                        return $member->username;
-                    } else return 'Member Not Found.';
+                    return $model->member->username;
                 })
                 ->addColumn('action', function ($model) {
                     return view('back.wallet.action')->with('model', $model);

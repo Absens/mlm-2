@@ -24,6 +24,7 @@ return [
     'splitMoreThan'     =>  '拆分后MD积分价格大于当前MD积分价格。',
     'splitSellStillExists'      =>  '仍有MD积分挂卖于MD积分交易市场。',
     'transferMemberError'   =>  '无法转移至该账户。',
+    'transferAmountError'   =>  '必須被100整除。',
     'transferTypeError' =>  '不存在该种转移类型。',
     'uplineNotFound'    =>  '用户不存在。',
     'userBan'   =>  '该用户已被封锁。',
@@ -35,5 +36,6 @@ return [
     'termsError' => '您必须同意我们的条款与协议。',
     'cashWalletLock' => '您的现金积分钱包转移功能已被封锁。',
     'promotionWalletLock' => '您的优惠积分钱包转移功能已被封锁。',
-    'registerWalletLock' => '您的注册积分钱包转移功能已被封锁。'
+    'registerWalletLock' => '您的注册积分钱包转移功能已被封锁。',
+    'withdrawAmountError' => '提款金額錯誤。'
 ];

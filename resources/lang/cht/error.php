@@ -24,6 +24,7 @@ return [
     'splitMoreThan'     =>  '拆分後MD積分價格大於當前MD積分價格。',
     'splitSellStillExists'      =>  '仍有MD積分掛賣與MD積分交易市場。',
     'transferMemberError'   =>  '無法轉移至該賬戶。',
+    'transferAmountError'   =>  '必须被100整除。',
     'transferTypeError' =>  '不存在該種轉移類型。',
     'uplineNotFound'    =>  '用戶不存在。',
     'userBan'   =>  '該用戶已被封鎖',
@@ -35,5 +36,6 @@ return [
     'termsError' => '您必須先同意公司的條款與協議。',
     'cashWalletLock' => '您的現金積分錢包轉移功能已被封鎖。',
     'promotionWalletLock' => '您的優惠積分錢包轉移功能已被封鎖。',
-    'registerWalletLock' => '您的註冊積分錢包轉移功能已被封鎖。'
+    'registerWalletLock' => '您的註冊積分錢包轉移功能已被封鎖。',
+    'withdrawAmountError' => '提款金额错误。'
 ];

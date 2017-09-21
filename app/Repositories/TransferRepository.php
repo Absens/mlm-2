@@ -98,6 +98,11 @@ class TransferRepository extends BaseRepository
             return false;
         }
 
+        if ($amount % 10 != 0) {
+            throw new \Exception(\Lang::get('error.transferAmountError'), 1);
+            return false;
+        }
+
         $walletFrom = $from->wallet;
         $walletTo = $to->wallet;
         $amount = (float) $amount;

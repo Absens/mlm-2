@@ -82,6 +82,10 @@ class WithdrawRepository extends BaseRepository
      * @return [type]         [description]
      */
     public function makeWithdraw ($member, $amount) {
+        if ($amount < 300 || ($amount % 100) != 0) {
+            throw new \Exception(\Lang::get('error.withdrawAmountError'), 1);
+            return false;
+        }
         $wallet = $member->wallet;
         if ($wallet->lock_cash) {
             throw new \Exception(\Lang::get('error.cashWalletLock'), 1);

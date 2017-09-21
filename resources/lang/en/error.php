@@ -24,6 +24,7 @@ return [
     'splitMoreThan'     =>  'Split is more than current price.',
     'splitSellStillExists'      =>  'There is still shares data on database.',
     'transferMemberError'   =>  'Cannot transfer to this member.',
+    'transferAmountError'   =>  'Must be divisible by 100.',
     'transferTypeError' =>  'Transfer type not recognized.',
     'uplineNotFound'    =>  'Upline not found.',
     'userBan'   =>  'Account is banned.',
@@ -35,5 +36,6 @@ return [
     'termsError' => 'You have to agree to our terms.',
     'cashWalletLock' => 'Your cash wallet is locked.',
     'promotionWalletLock' => 'Your promotion wallet is locked.',
-    'registerWalletLock' => 'Your register wallet is locked.'
+    'registerWalletLock' => 'Your register wallet is locked.',
+    'withdrawAmountError' => 'Withdraw amount error.'
 ];
