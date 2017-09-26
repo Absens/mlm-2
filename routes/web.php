@@ -17,7 +17,7 @@
 */
 
 // Route::get('test', function () {
-//     $member = \App\Models\Member::where('id', 4)->first();
+//     $member = \App\Models\Member::where('id', 3)->first();
 //     $wallet = $member->wallet;
 //     $repo = new SharesRepository;
 //     $repo->repurchasePackage($member, $wallet->purchase_point, $wallet);
