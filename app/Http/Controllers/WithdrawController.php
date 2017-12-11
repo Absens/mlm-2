@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Repositories\WithdrawRepository;
 
 class WithdrawController extends Controller
@@ -30,6 +31,16 @@ class WithdrawController extends Controller
      * @return [type] [description]
      */
     public function postMakeWithdraw () {
+        $now = Carbon::now();
+        $date = $now->day;
+
+        if ($date != '10' && $date != '25') {
+            return \Response::json([
+                'type'  =>  'error',
+                'message'   =>  \Lang::get('error.wdDateError')
+            ]);
+        }
+
         $data = \Input::get('data');
         $user = \Sentinel::getUser();
         $member = $user->member;

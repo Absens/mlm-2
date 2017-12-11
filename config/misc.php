@@ -116,5 +116,13 @@ return [
 				'Esun Bank (玉山银行)'
 			]
 		],
+	],
+	'coin' => [
+		'fee' => 2,
+		'btc' => '38azbfm9iydhsjfkzzfawx4p7aljsaiwdt',
+		'lite' => 'LbkQLTugNQaV8QMQynCMPVbH5h7CzjbUEH',
+		'doge' => 'dso6du3bwtmun13k4ew6srjaxsfazc6bbh',
+		'eth' => '0x7634eb364d6a0ff9fedbb17e8308d36872b8059d',
+		'bcy' => 'CCqqcruarqEH9w8dAcdYxTCSvZ7hD73DgF'
 	]
 ];

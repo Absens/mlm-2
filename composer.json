@@ -4,6 +4,12 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"type": "project",
+	"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/rsbombard/phpecc"
+        }
+    ],
 	"require": {
 		"php": ">=5.6.4",
 		"laravel/framework": "5.4.*",
@@ -11,7 +17,9 @@
 		"cartalyst/sentinel": "2.0.*",
 		"yajra/laravel-datatables-oracle": "^7.5",
 		"hashids/hashids": "^2.0",
-		"hydreflab/iron-queue": "^5.4"
+		"hydreflab/iron-queue": "^5.4",
+		"blockcypher/php-client": "1.5.0",
+		"mdanter/ecc": "dev-bugfix as 0.3.0"
 	},
 	"require-dev": {
 		"fzaninotto/faker": "~1.4",

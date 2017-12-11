@@ -1,7 +1,7 @@
 <?php
   $route = \Route::currentRouteName();
   if (is_null($route)) $route = 'home';
-  if ($route == 'announcement.read') {
+  if ($route == 'announcement.read' || $route == 'coin.wallet.detail' || $route == 'coin.transaction.detail') {
     $routeEN = route($route, ['lang' => 'en', 'id' => $model->id]);
     $routeCHS = route($route, ['lang' => 'chs', 'id' => $model->id]);
     $routeCHT = route($route, ['lang' => 'cht', 'id' => $model->id]);

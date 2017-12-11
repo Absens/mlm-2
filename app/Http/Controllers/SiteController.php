@@ -9,7 +9,16 @@ class SiteController extends Controller
 {
     public function __construct() {
         parent::__construct();
-        $this->middleware('member', ['except' => ['getLogin', 'getLogout', 'destroy', 'fixNetwork', 'fix']]);
+        $this->middleware('member', ['except' => ['getLogin', 'getLogout', 'destroy', 'fixNetwork']]);
+    }
+
+    public function test () {
+        $service = new \App\Services\BlockCypher('bcy');
+        try {
+            echo $service->testFaucet();
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
     }
 
     public function getLogin () {
@@ -120,11 +129,50 @@ class SiteController extends Controller
         return view('front.misc.groupPending');
     }
 
+    public function getCoinWallet () {
+        return view('front.coin.wallet');
+    }
+
+    public function getCoinTransaction () {
+        return view('front.coin.transaction');
+    }
+
     public function maintenance () {
         return view('front.maintenance');
     }
 
     public function fixNetwork () {
+        $user = \Sentinel::findByCredentials([
+            'login' => 'llf177'
+        ]);
+
+        $theMember = $user->member;
+        $id = "683";
+
+        \App\Models\Member::where('left_children', 'like', '%' . $id . '%')->orWhere('right_children', 'like', '%' . $id . '%')->chunk(50, function ($members) use ($id) {
+            foreach ($members as $member) {
+                if (strpos($member->left_children, $id) !== false) {
+                    $member->left_children = str_replace($id, '', $member->left_children);
+                    $member->left_children = rtrim($member->left_children, ',');
+                    if ($member->left_children == '') $member->left_children = null;
+                    $member->left_total -= 5000;
+                    if ($member->left_total < 0) $member->left_total = 0;
+                } else if (strpos($member->right_children, $id) !== false) {
+                    $member->right_children = str_replace($id, '', $member->right_children);
+                    $member->right_children = rtrim($member->right_children, ',');
+                    if ($member->right_children == '') $member->right_children = null;
+                    $member->right_total -= 5000;
+                    if ($member->right_total < 0) $member->right_total = 0;
+                }
+
+                $member->save();
+            }
+        });
+
+        $theMember->delete();
+        $user->delete();
+        return 'success';
+
         // \DB::table('Member')->update([
         //     'left_children' => null,
         //     'right_children' => null,
@@ -137,7 +185,7 @@ class SiteController extends Controller
         //         $repo->addNetwork($member);
         //     }
         // });
-        return 'success';
+        // return 'success';
     }
 
     public function fix () {

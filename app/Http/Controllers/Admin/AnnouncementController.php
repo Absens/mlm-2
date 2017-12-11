@@ -66,10 +66,37 @@ class AnnouncementController extends Controller
             ]);
         }
 
+        \Cache::forget('announcement.new');
+
         return \Response::json([
             'type' => 'success',
             'message' => 'Announcement created.'
         ]);
+    }
+
+    /**
+     * Submit preview request
+     * @param Request $req
+     * @return json
+     */
+    public function previewSubmit (Request $req) {
+        $data = \Input::get('data');
+        $req->session()->put('announcement.preview', $data);
+        return \Response::json([
+            'type' => 'success',
+            'message' => 'Redirecting you to new window..',
+            'redirect' => route('admin.announcement.preview')
+        ]);
+    }
+
+    /**
+     * Get the HTML for preview
+     * @param  Request $req
+     * @return html
+     */
+    public function preview (Request $req) {
+        $data = $req->session()->pull('announcement.preview', []);
+        return view('back.announcement.preview')->with('data', $data);
     }
 
     /**
@@ -95,6 +122,8 @@ class AnnouncementController extends Controller
         $model->created_at = $data['created_at'];
         $model->save();
 
+        \Cache::forget('announcement.new');
+
         return \Response::json([
             'type' => 'success',
             'message' => 'Announcement updated.'
@@ -115,6 +144,8 @@ class AnnouncementController extends Controller
         }
 
         $model->delete();
+
+        \Cache::forget('announcement.new');
 
         return \Response::json([
             'type' => 'success',

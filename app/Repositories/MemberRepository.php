@@ -182,6 +182,16 @@ class MemberRepository extends BaseRepository
             return false;
         }
 
+        if ($parent->id != $currentMember->id) {
+            $left = explode(',', $currentMember->left_children);
+            $right = explode(',', $currentMember->right_children);
+            if (!in_array($parent->id, $left) && 
+                !in_array($parent->id, $right)) {
+                throw new \Exception(\Lang::get('error.memberPositionError'), 1);
+                return false;
+            }
+        }
+
         if (!$this->checkIfPositionAvailable($parent, $data['position'])) {
             throw new \Exception(\Lang::get('error.positionNotAvailable'), 1);
             return false;

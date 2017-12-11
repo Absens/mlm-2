@@ -48,6 +48,11 @@
                       </div>
 
                       <div class="form-group">
+                        <label class="control-label" for="inputName">Name</label>
+                        <input type="text" name="first_name" class="form-control" id="inputName" value="{{ $mUser->first_name }}">
+                      </div>
+
+                      <div class="form-group">
                         <label class="control-label" for="inputPhone1">Phone 1</label>
                         <input type="text" name="phone1" class="form-control" id="inputPhone1" value="{{ $detail->phone1 }}">
                       </div>

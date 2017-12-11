@@ -53,7 +53,7 @@
             <div class="col-md-8">
               <div class="well white clearfix">
                 <p class="theme-text pull-right"><i class="md md-alarm"></i> {{ $model->created_at->format('d F Y H:i A') }}</p>
-                <div class="pull-left">
+                <div class="pull-left" style="width: 100%;">
                   {!! $content !!}
                 </div>
               </div>

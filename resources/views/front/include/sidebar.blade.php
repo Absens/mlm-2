@@ -133,7 +133,28 @@
     </li>
 
     <li>
-      <a href="{{ route('announcement.list', ['lang' => \App::getLocale()]) }}"><i class="md md-new-releases"></i>&nbsp;@lang('sidebar.announcementTitle')</a>
+      <a href="#" data-toggle="collapse" data-target="#MDCoin" aria-expanded="false" aria-controls="MDCoin" class="collapsible-header waves-effect"><i class="md md-album"></i>&nbsp;@lang('sidebar.coinTitle')</a>
+      <ul id="MDCoin" class="collapse">
+        <li>
+          <a href="{{ route('coin.transaction', ['lang' => \App::getLocale()]) }}">
+            <span>@lang('sidebar.coinLink1')</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('coin.list', ['lang' => \App::getLocale()]) }}">
+            <span>@lang('sidebar.coinLink2')</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <?php
+      $announcement = \Cache::remember('announcement.new', 60, function () {
+        return \App\Models\Announcement::whereRaw('Date(created_at) = CURDATE()')->first();
+      });
+    ?>
+    <li>
+      <a href="{{ route('announcement.list', ['lang' => \App::getLocale()]) }}"><i class="md md-new-releases @if ($announcement) sidebar-has-notif @endif"></i>&nbsp;@lang('sidebar.announcementTitle')</a>
     </li>
 
     <li icon="md md-settings-power">

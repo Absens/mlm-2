@@ -27,5 +27,8 @@ return [
 	'statementTitle'	=>	'E-Statement Report',
 	'statementLink1'	=>	'Bonus Statement',
 	'statementLink2'	=>	'Summary Statement',
-	'announcementTitle' =>	'Announcement'
+	'announcementTitle' =>	'Announcement',
+	'coinTitle'	=>	'Coin',
+	'coinLink1'	=>	'Make Transaction',
+	'coinLink2'	=>	'My Wallet',
 ];

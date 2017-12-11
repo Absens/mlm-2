@@ -6,6 +6,6 @@
   <i class="md md-mode-edit"></i> Edit
 </a>
 
-<button class="btn btn-delete btn-danger btn-flat-bordered" data-url="{{ route('admin.withdraw.remove', ['id' => $model->id]) }}">
-  <i class="md md-deleet"></i> Remove  
+<button class="btn btn-delete btn-danger btn-flat-bordered" data-url="{{ route('coin.wallet.delete', ['id' => $model->id]) }}">
+  <i class="md md-delete"></i> Remove  
 </button>

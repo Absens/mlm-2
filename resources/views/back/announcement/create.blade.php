@@ -56,6 +56,12 @@
                     </div>
 
                     <div class="form-group">
+                      <button type="button" id="preview" data-url="{{ route('admin.announcement.preview') }}" class="btn btn-warning">
+                        <span class="btn-preloader">
+                          <i class="md md-cached md-spin"></i>
+                        </span>
+                        <span>Preview</span>
+                      </button>
                       <button type="submit" class="btn btn-primary">
                         <span class="btn-preloader">
                           <i class="md md-cached md-spin"></i>

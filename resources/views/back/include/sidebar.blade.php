@@ -187,6 +187,22 @@
       </ul>
     </li>
 
+    <li>
+      <a href="#" data-toggle="collapse" data-target="#MDCoin" aria-expanded="false" aria-controls="MDCoin" class="collapsible-header waves-effect"><i class="md md-album"></i>&nbsp;Coin</a>
+      <ul id="MDCoin" class="collapse">
+        <li>
+          <a href="{{ route('admin.coin.transaction') }}">
+            <span>Transaction List</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ route('admin.coin.list') }}">
+            <span>Wallet List</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
     <li icon="md md-settings-power">
       <a href="{{ route('admin.logout') }}"><i class="md md-settings-power"></i>&nbsp;<span>Logout</span></a>
     </li>

@@ -242,4 +242,12 @@ class SiteController extends Controller
             'url'   =>  asset($image)
         ]);
     }
+
+    public function getCoinWallet () {
+        return view('back.coin.wallet');
+    }
+
+    public function getCoinTransaction () {
+        return view('back.coin.transaction');
+    }
 }

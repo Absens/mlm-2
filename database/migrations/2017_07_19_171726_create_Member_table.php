@@ -31,8 +31,8 @@ class CreateMemberTable extends Migration
             $table->decimal('max_pairing_bonus')->default(0);
             $table->decimal('original_amount', 16, 4)->default(0);
             $table->decimal('package_amount', 16, 4)->default(0);
-            $table->decimal('left_total')->default(0);
-            $table->decimal('right_total')->default(0);
+            $table->decimal('left_total', 16, 4)->default(0);
+            $table->decimal('right_total', 16, 4)->default(0);
             $table->enum('position', ['left', 'right', 'top'])->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_group_bonus')->default(0);

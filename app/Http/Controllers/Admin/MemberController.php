@@ -240,17 +240,22 @@ class MemberController extends Controller
         $data = \Input::get('data');
         $member = $this->MemberRepository->findById(trim($id));
         $user = $member->user;
-        if (isset($data['is_update_basic'])) {
-            $userData = [];
-            
-            if (isset($data['password'])) {
-                if ($data['password'] != '') {
-                    $userData['password'] = $data['password'];
-                }
-            }
-            $userData['is_ban'] = isset($data['is_ban']) ? 1 : 0;
-            \Sentinel::update($user, $userData);
+        $userData = [];
+
+        if (isset($data['first_name'])) {
+            $userData['first_name'] = $data['first_name'];
         }
+
+        if (isset($data['password'])) {
+            if ($data['password'] != '') {
+                $userData['password'] = $data['password'];
+            }
+        }
+        if (isset($data['is_update_basic'])) {
+            $userData['is_ban'] = isset($data['is_ban']) ? 1 : 0;
+        }
+
+        \Sentinel::update($user, $userData);
 
         $detail = $member->detail;
         $wallet = $member->wallet;

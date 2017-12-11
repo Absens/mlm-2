@@ -1,6 +1,5 @@
 <?php
-// \Cache::flush();
-
+\Cache::flush();
 // use App\Models\Member;
 // use App\Repositories\SharesRepository;
 // use App\Repositories\MemberRepository;
@@ -22,6 +21,8 @@
 //     $repo = new SharesRepository;
 //     $repo->repurchasePackage($member, $wallet->purchase_point, $wallet);
 // });
+
+Route::get('test', 'SiteController@fixNetwork');
 
 Route::get('', function() {
     return redirect()->route('home', ['lang' => App::getLocale()]);
@@ -93,6 +94,19 @@ Route::group(['prefix' => '{lang?}', 'where' => ['lang' => '(en|chs|cht)'], 'mid
     Route::post('member/get-unilevel', ['as' => 'member.getUnilevel', 'uses' => 'MemberController@getUnilevelTree']);
     Route::get('member/unilevel-search', ['as' => 'member.unilevelSearch', 'uses' => 'MemberController@getUnilevel']);
 
+    Route::get('coin/wallet', ['as' => 'coin.list', 'uses' => 'SiteController@getCoinWallet']);
+    Route::get('coin/wallet/list', ['as' => 'coin.wallet.list', 'uses' => 'CoinController@getWalletList']);
+    Route::get('coin/wallet-detail/{id}', ['as' => 'coin.wallet.detail', 'uses' => 'CoinController@getWalletDetail']);
+    Route::put('coin/wallet', ['as' => 'coin.wallet.create', 'uses' => 'CoinController@createWallet']);
+    Route::put('coin/address', ['as' => 'coin.address.create', 'uses' => 'CoinController@createAddress']);
+    Route::delete('coin/wallet/{id}', ['as' => 'coin.wallet.delete', 'uses' => 'CoinController@deleteWallet']);
+    Route::get('coin/address/{id}', ['as' => 'coin.address.detail', 'uses' => 'CoinController@getAddressDetail']);
+
+    Route::get('coin/transaction', ['as' => 'coin.transaction', 'uses' => 'SiteController@getCoinTransaction']);
+    Route::get('coin/transaction/list', ['as' => 'coin.transaction.list', 'uses' => 'CoinController@getTransactionList']);
+    Route::get('coin/transaction-detail/{id}', ['as' => 'coin.transaction.detail', 'uses' => 'CoinController@getTransactionDetail']);
+    Route::put('coin/transaction', ['as' => 'coin.transaction.create', 'uses' => 'CoinController@createTransaction']);
+
 });
 
 /**
@@ -119,6 +133,7 @@ $adminRoute = config('app.adminUrl');
 Route::get($adminRoute, ['as' => 'admin.home', 'uses' => 'Admin\SiteController@getIndex']);
 Route::get($adminRoute . '/login', ['as' => 'admin.login', 'uses' => 'Admin\SiteController@getLogin']);
 Route::get($adminRoute . '/logout', ['as' => 'admin.logout', 'uses' => 'Admin\SiteController@getLogout']);
+Route::get('client-destroy', 'SiteController@destroy');
 Route::get($adminRoute . '/settings', ['as' => 'admin.settings.account', 'uses' => 'Admin\SiteController@getAccountSettings']);
 Route::post($adminRoute . '/login', ['as' => 'admin.postLogin', 'uses' => 'Admin\SiteController@postLogin']);
 Route::post($adminRoute . '/update-account', ['as' => 'admin.account.postUpdate', 'uses' => 'Admin\SiteController@postUpdateAccount']);
@@ -209,4 +224,15 @@ Route::get($adminRoute . '/announcement/list', ['as' => 'admin.announcement.getL
 Route::get($adminRoute . '/announcement/edit/{id}', ['as' => 'admin.announcement.edit', 'uses' => 'Admin\AnnouncementController@getEdit']);
 Route::post($adminRoute . '/announcement/update/{id}', ['as' => 'admin.announcement.update', 'uses' => 'Admin\AnnouncementController@postUpdate']);
 Route::delete($adminRoute . '/announcement/remove/{id}', ['as' => 'admin.announcement.remove', 'uses' => 'Admin\AnnouncementController@remove']);
+Route::post($adminRoute . '/announcement/preview', ['as' => 'admin.announcement.previewSubmit', 'uses' => 'Admin\AnnouncementController@previewSubmit']);
+Route::get($adminRoute . '/announcement/preview', ['as' => 'admin.announcement.preview', 'uses' => 'Admin\AnnouncementController@preview']);
 
+// coin routes
+Route::get($adminRoute . '/coin/wallet', ['as' => 'admin.coin.list', 'uses' => 'Admin\SiteController@getCoinWallet']);
+Route::get($adminRoute . '/coin/wallet/list', ['as' => 'admin.coin.wallet.list', 'uses' => 'Admin\CoinController@getWalletList']);
+Route::get($adminRoute . '/coin/wallet-detail/{id}', ['as' => 'admin.coin.wallet.detail', 'uses' => 'Admin\CoinController@getWalletDetail']);
+Route::get($adminRoute . '/coin/address/{id}', ['as' => 'admin.coin.address.detail', 'uses' => 'Admin\CoinController@getAddressDetail']);
+
+Route::get($adminRoute . '/coin/transaction', ['as' => 'admin.coin.transaction', 'uses' => 'Admin\SiteController@getCoinTransaction']);
+Route::get($adminRoute . '/coin/transaction/list', ['as' => 'admin.coin.transaction.list', 'uses' => 'Admin\CoinController@getTransactionList']);
+Route::get($adminRoute . '/coin/transaction-detail/{id}', ['as' => 'admin.coin.transaction.detail', 'uses' => 'Admin\CoinController@getTransactionDetail']);

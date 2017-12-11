@@ -38,5 +38,7 @@ return [
     'promotionWalletLock' => '您的优惠积分钱包转移功能已被封锁。',
     'registerWalletLock' => '您的注册积分钱包转移功能已被封锁。',
     'withdrawAmountError' => '提款金額錯誤。',
-    'bankError' => '银行细节仍然空白。'
+    'bankError' => '银行细节仍然空白。',
+    'wdDateError' => '每月提款日为当月的10号及25号。',
+    'memberPositionError' => '您不能将新成员置于此BINARY成员之下。'
 ];

@@ -38,5 +38,7 @@ return [
     'promotionWalletLock' => 'Your promotion wallet is locked.',
     'registerWalletLock' => 'Your register wallet is locked.',
     'withdrawAmountError' => 'Withdraw amount error.',
-    'bankError' => 'Bank detail is still empty.'
+    'bankError' => 'Bank detail is still empty.',
+    'wdDateError' => 'You can only make withdraw on 10th and 25th every month.',
+    'memberPositionError' => 'You cannot place the new member under this BINARY member.'
 ];

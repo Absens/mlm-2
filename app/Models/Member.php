@@ -15,6 +15,7 @@ class Member extends Model
     protected static $detailModel = 'App\Models\MemberDetail';
     protected static $sharesModel = 'App\Models\MemberShares';
     protected static $freezeSharesModel = 'App\Models\MemberFreezeShares';
+    protected static $coinWalletModel = 'App\Models\Coin\Wallet';
 
     public function user () {
         return $this->belongsTo(static::$userModel, 'user_id');
@@ -38,6 +39,10 @@ class Member extends Model
 
     public function wallet () {
         return $this->hasOne(static::$walletModel, 'member_id');
+    }
+
+    public function coinWallet () {
+        return $this->hasMany(static::$coinWalletModel, 'member_id');
     }
 
     public function detail () {

@@ -28,5 +28,8 @@ return [
 	'statementTitle'	=>	'报表中心',
 	'statementLink1'	=>	'奖励报表',
 	'statementLink2'	=>	'财务报表',
-	'announcementTitle' =>	'公司通告'
+	'announcementTitle' =>	'公司通告',
+	'coinTitle' => '虚拟货币专区',
+	'coinLink1' => '创建交易',
+	'coinLink2' => '我的钱包',
 ];
