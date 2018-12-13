@@ -1,4 +1,4 @@
-# MLM System, Web Based
+# MLM System, Web Based (No longer maintained)
 
 - `composer install`
 - If can run `php artisan migrate` and `php artisan db:seed`
